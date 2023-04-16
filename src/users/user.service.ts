@@ -5,12 +5,15 @@ import { User } from 'src/schemas/user.schema';
 import { createUserInput, UserId } from './inputs/create-user.input';
 import { updateUserInput } from './inputs/updateUserInput .input';
 import { Args, Int } from '@nestjs/graphql';
-
+import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
-
+  constructor(
+    @InjectModel(User.name) private userModel: Model<User>,
+    private configService: ConfigService,
+  ) {}
   async createUser(createUserData: createUserInput): Promise<User> {
+    console.log('DATABASE_URL', this.configService.get<string>('DATABASE_URL'));
     const latestUser = await this.userModel
       .findOne()
       .sort({ UserId: -1 })
