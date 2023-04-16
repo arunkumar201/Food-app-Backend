@@ -26,6 +26,38 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+# Food-app-Backend
+
+This is the backend code for the Food-app project. It is built using the NestJS framework and provides a RESTful API for managing food items and categories.
+
+## Getting Started
+
+To get started with the project, you'll need to have Node.js and npm installed on your machine. You can download and install them from the official Node.js website: https://nodejs.org/en/download/
+
+Once you have Node.js and npm installed, follow these steps to get the project up and running:
+
+1. Clone the repository to your local machine using Git:
+
+git clone https://github.com/arunkumar201/Food-app-Backend.git
+
+
+2. Navigate to the project directory:
+
+```
+cd Food-app-Backend
+Install the project dependencies using npm:
+
+npm install
+Create a .env file in the project root directory and set the following environment variables:
+
+PORT=3000
+DATABASE_URL=<your [MongoDB](poe://www.poe.com/_api/key_phrase?phrase=MongoDB&prompt=Tell%20me%20more%20about%20MongoDB.) database URL>
+Start the development server:
+
+npm run start:dev
+This will start the server in development mode and watch for changes to the code.
+
+
 ## Installation
 
 ```bash
