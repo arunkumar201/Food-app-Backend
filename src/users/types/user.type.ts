@@ -45,4 +45,8 @@ export class User {
   @Field()
   @Prop({ required: true })
   phone: string;
+
+  @Field()
+  @Prop({ required: true })
+  UserId: number;
 }

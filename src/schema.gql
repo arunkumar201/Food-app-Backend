@@ -16,6 +16,7 @@ type User {
   password: String!
   address: Address!
   phone: String!
+  UserId: Float!
 }
 
 type Query {

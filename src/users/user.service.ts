@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from 'src/schemas/user.schema';
 import { createUserInput, UserId } from './inputs/create-user.input';
-import { updateUserInput } from './inputs/updateUserInput .input';
+import { updateUserInput } from './inputs/update-user.input';
 import { Args, Int } from '@nestjs/graphql';
 import { ConfigService } from '@nestjs/config';
 @Injectable()

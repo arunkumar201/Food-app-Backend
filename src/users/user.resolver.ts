@@ -3,7 +3,7 @@ import { UserService } from './user.service';
 import { createUserInput, UserId } from './inputs/create-user.input';
 import { User } from './types/user.type';
 import { NotFoundException } from '@nestjs/common';
-import { updateUserInput } from './inputs/updateUserInput .input';
+import { updateUserInput } from './inputs/update-user.input';
 @Resolver(() => User)
 //User type defines the Returning value
 export class UserResolver {
