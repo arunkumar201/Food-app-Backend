@@ -10,7 +10,12 @@ import { UserModule } from './users/user.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(), // Import the ConfigModule and load environment variables
+    ConfigModule.forRoot({
+      envFilePath: ['.env', '.dev.env'],
+      //Cache option which allows us to catch the env variable
+      cache: true,
+      expandVariables: true,
+    }), // Import the ConfigModule and load environment variables
     UserModule,
     MongooseModule.forRootAsync({
       // Use MongooseModule.forRootAsync() to asynchronously get the database URL from the ConfigService
