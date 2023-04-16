@@ -38,8 +38,14 @@ $ yarn install
 # development
 $ yarn run start
 
+#auto formatting
+$ yarn run lint
+
 # watch mode
 $ yarn run start:dev
+
+#auto formatting
+$ yarn run lint
 
 # production mode
 $ yarn run start:prod
