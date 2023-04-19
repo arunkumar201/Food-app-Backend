@@ -1,11 +1,10 @@
-import { InputType, Field, Int } from '@nestjs/graphql';
+import { InputType, Field } from '@nestjs/graphql';
 import {
   IsNotEmpty,
   IsEmail,
   IsString,
   IsPhoneNumber,
   ValidateNested,
-  IsOptional,
   IsNumber,
 } from '@nestjs/class-validator';
 
@@ -38,10 +37,6 @@ export class createUserInput {
   @Field()
   @IsEmail()
   email: string;
-  @Field(() => Int, { nullable: true })
-  @IsNumber()
-  @IsOptional()
-  UserId?: number;
 
   @Field()
   @IsNotEmpty()
@@ -64,10 +59,9 @@ export class createUserInput {
   @IsPhoneNumber()
   phone: string;
 }
-
 @InputType()
 export class UserId {
   @Field({ nullable: false })
   @IsNumber()
-  UserId: number;
+  UserId: string;
 }

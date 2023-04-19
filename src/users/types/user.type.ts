@@ -1,8 +1,8 @@
 //it defines the Return type/fields
-import { IsEmail } from '@nestjs/class-validator';
 import { ObjectType } from '@nestjs/graphql';
 import { Field } from '@nestjs/graphql';
 import { Prop } from '@nestjs/mongoose';
+
 @ObjectType()
 export class Address {
   @Field()
@@ -31,7 +31,6 @@ export class User {
 
   @Field()
   @Prop({ required: true, unique: true })
-  @IsEmail()
   email: string;
 
   @Field()
@@ -43,10 +42,10 @@ export class User {
   address: Address;
 
   @Field()
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   phone: string;
 
   @Field()
-  @Prop({ required: true })
-  UserId: number;
+  @Prop({ required: true, unique: true })
+  UserId: string;
 }

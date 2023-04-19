@@ -16,24 +16,23 @@ type User {
   password: String!
   address: Address!
   phone: String!
-  UserId: Float!
+  UserId: String!
 }
 
 type Query {
   getHello: String!
   getAllUsers: [User!]!
-  getUser(UserId: Int!): User!
+  getUser(UserId: String!): User!
 }
 
 type Mutation {
   createUser(createUserData: createUserInput!): User!
   updateUser(updateUserData: updateUserInput!, UserId: Int!): User!
-  deleteUser(UserId: Float!): Boolean!
+  deleteUser(UserId: String!): String!
 }
 
 input createUserInput {
   email: String!
-  UserId: Int
   name: String!
   password: String!
   address: addressInput!

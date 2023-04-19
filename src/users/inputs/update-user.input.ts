@@ -32,7 +32,6 @@ export class updateUserInput {
   address?: addressInput;
 
   @Field({ nullable: true })
-  @IsOptional()
   @IsPhoneNumber()
   phone?: string;
 }

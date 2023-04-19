@@ -1,7 +1,7 @@
 import { ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { IsEmail } from '@nestjs/class-validator';
+import { IsEmail, IsPhoneNumber } from '@nestjs/class-validator';
 @ObjectType()
 @Schema()
 export class Address {
@@ -18,15 +18,21 @@ export class Address {
   country: string;
 }
 @ObjectType()
-@Schema({ collection: 'user' })
-export class User extends Document {
-  @Prop()
+@Schema({
+  collection: 'user',
+  timestamps: true,
+})
+export class User {
+  @Prop({ required: true })
   name: string;
-  @Prop()
-  UserId: number;
+  @Prop({ required: true, unique: true })
+  UserId: string;
   @Prop({ required: true, unique: true })
   @IsEmail()
   email: string;
+  @Prop({ required: true, unique: true })
+  @IsPhoneNumber()
+  phone: string;
 
   @Prop({ required: true })
   password: string;
@@ -34,10 +40,15 @@ export class User extends Document {
   @Prop({ type: Address })
   address: Address;
 
-  @Prop({ required: true })
-  phone: string;
-
   @Prop({ default: Date.now })
   createdAt: Date;
 }
+//Create the User Document type
+//UserDocument=it holds User Properties as well as the Document Properties/methods
+//like find,delete,update,findById and so on in mongodb
+export type UserDocument = User & Document;
+
+//it returns the UserSchema and compiles it
 export const UserSchema = SchemaFactory.createForClass(User);
+//Schema Name
+export const USER_MODEL = User.name;
