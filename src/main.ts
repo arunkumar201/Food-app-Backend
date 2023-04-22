@@ -5,7 +5,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(
     new ValidationPipe({
-      validationError: { target: false }, // Set target to false to exclude the object being validated from the error response
+      transform: true, // enable auto-conversion of incoming data types
+      transformOptions: {
+        enableImplicitConversion: true, // allow implicit conversion of data types
+      },
     }),
   );
   await app.listen(3000);

@@ -27,12 +27,16 @@ export class UserService {
     return createdUser.save();
   }
   async getUser(UserId: UserId): Promise<User> {
+    console.log(
+      '🚀 ~ file: user.service.ts:30 ~ UserService ~ getUser ~ UserId:',
+      UserId,
+    );
     return this.userModel.findOne({ UserId }).exec();
   }
   async updateUser(
     @Args('UserId', { type: () => String }) UserId: UserId,
     @Args('updateUserData') updateUserData: updateUserInput,
-  ): Promise<any> {
+  ): Promise<User> {
     const updatedUser = await this.userModel.findOneAndUpdate(
       { UserId },
       { $set: updateUserData },

@@ -2,6 +2,8 @@ import { ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { IsEmail, IsPhoneNumber } from '@nestjs/class-validator';
+import { Types } from 'mongoose';
+import mongoose from 'mongoose';
 @ObjectType()
 @Schema()
 export class Address {
@@ -23,6 +25,8 @@ export class Address {
   timestamps: true,
 })
 export class User {
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Menu' }] })
+  orders: string | Types.ObjectId;
   @Prop({ required: true })
   name: string;
   @Prop({ required: true, unique: true })

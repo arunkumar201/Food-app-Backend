@@ -5,7 +5,6 @@ import {
   IsString,
   IsPhoneNumber,
   ValidateNested,
-  IsNumber,
 } from '@nestjs/class-validator';
 
 import { Type } from '@nestjs/class-transformer';
@@ -62,6 +61,5 @@ export class createUserInput {
 @InputType()
 export class UserId {
   @Field({ nullable: false })
-  @IsNumber()
   UserId: string;
 }

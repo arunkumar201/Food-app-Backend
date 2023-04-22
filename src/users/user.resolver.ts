@@ -1,4 +1,4 @@
-import { Resolver, Mutation, Args, Int, Query } from '@nestjs/graphql';
+import { Resolver, Mutation, Args, Query } from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { createUserInput, UserId } from './inputs/create-user.input';
 import { User } from './types/user.type';
@@ -21,6 +21,7 @@ export class UserResolver {
     @Args('UserId', { type: () => String }) UserId: UserId,
   ): Promise<User | UserId> {
     const user = await this.userService.getUser(UserId);
+    console.log('🚀 ~ file: user.resolver.ts:24 ~ UserResolver ~ user:', user);
     if (!user) {
       throw new NotFoundException(`User with ID ${UserId} does not exist`);
     }
@@ -42,12 +43,16 @@ export class UserResolver {
   @Mutation(() => User)
   async updateUser(
     @Args('updateUserData') updateUserData: updateUserInput,
-    @Args('UserId', { type: () => Int }) UserId: UserId,
-  ): Promise<User | UserId | string> {
+    @Args('UserId', { type: () => String }) UserId: UserId,
+  ): Promise<User | UserId> {
     return this.userService.updateUser(UserId, updateUserData);
   }
   @Mutation(() => String)
   async deleteUser(@Args('UserId') UserId: string): Promise<any> {
-    return this.userService.deleteUser(UserId);
+    const updatedOrder = this.userService.deleteUser(UserId);
+    if (!updatedOrder) {
+      throw new Error(`Order with OrderId ${UserId} not found`);
+    }
+    return updatedOrder;
   }
 }

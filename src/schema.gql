@@ -19,16 +19,50 @@ type User {
   UserId: String!
 }
 
+type Order {
+  OrderId: String!
+  UserId: String!
+  items: [OrderItemOutput!]!
+  total: Float!
+  status: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deliveryAddress: String!
+  deliveryInstructions: String!
+  deliveryTime: String!
+  paymentMethod: String!
+  paymentStatus: String!
+  deliveryPersonName: String!
+  deliveryPersonPhone: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type OrderItemOutput {
+  name: String!
+  price: Float!
+  quantity: Float!
+  description: String!
+}
+
 type Query {
   getHello: String!
   getAllUsers: [User!]!
   getUser(UserId: String!): User!
+  getOrderById(OrderId: String!): Order!
+  getAllOrder: [Order!]!
 }
 
 type Mutation {
   createUser(createUserData: createUserInput!): User!
-  updateUser(updateUserData: updateUserInput!, UserId: Int!): User!
+  updateUser(updateUserData: updateUserInput!, UserId: String!): User!
   deleteUser(UserId: String!): String!
+  createOrder(createOrderData: CreateOrderInput!): Order!
+  DeleteOrderById(OrderId: String!): String!
+  updateOrderById(OrderId: String!, updateOrderData: UpdateOrderInput!): Order!
 }
 
 input createUserInput {
@@ -52,4 +86,40 @@ input updateUserInput {
   password: String
   address: addressInput
   phone: String
+}
+
+input CreateOrderInput {
+  UserId: String!
+  items: [OrderItemInput!]!
+  total: Float!
+  deliveryAddress: String!
+  deliveryInstructions: String!
+  deliveryTime: String!
+  paymentMethod: String!
+  paymentStatus: String!
+  deliveryPersonName: String!
+  deliveryPersonPhone: String!
+}
+
+input OrderItemInput {
+  name: String!
+  price: Float!
+  quantity: Float!
+  description: String!
+}
+
+input UpdateOrderInput {
+  UserId: String
+  items: [OrderItemInput!]
+  total: Float
+  deliveryAddress: String
+  deliveryInstructions: String
+  deliveryTime: String
+  paymentMethod: String
+  paymentStatus: String
+  deliveryPersonName: String
+  deliveryPersonPhone: String
+  OrderId: String
+  status: String
+  deliveryDate: DateTime
 }

@@ -9,6 +9,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './users/user.module';
 import { MongooseConfigService } from './mongoose-config.service';
 import { MongooseModelsModule } from './schemas/mongoose-models.module';
+import { OrderModule } from './Orders/order.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { MongooseModelsModule } from './schemas/mongoose-models.module';
       isGlobal: true,
     }), // Import the ConfigModule and load environment variables
     UserModule,
+    OrderModule,
     //1st way to use mongodb to connect
     //forRoot returns the dynamic module
     MongooseModule.forRootAsync({
