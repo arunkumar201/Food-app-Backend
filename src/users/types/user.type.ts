@@ -23,9 +23,6 @@ export class Address {
 @ObjectType()
 export class User {
   @Field()
-  _id: string;
-
-  @Field()
   @Prop({ required: true })
   name: string;
 

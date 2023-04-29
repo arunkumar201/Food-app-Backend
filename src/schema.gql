@@ -10,7 +10,6 @@ type Address {
 }
 
 type User {
-  _id: String!
   name: String!
   email: String!
   password: String!
@@ -48,6 +47,26 @@ type OrderItemOutput {
   description: String!
 }
 
+type UserAddress {
+  street: String!
+  city: String!
+  state: String!
+  country: String!
+}
+
+type UserDetails {
+  id: String!
+  name: String!
+  email: String!
+  phone: String!
+  address: UserAddress!
+}
+
+type LoginResponse {
+  access_token: String!
+  userDetails: UserDetails!
+}
+
 type Query {
   getHello: String!
   getAllUsers: [User!]!
@@ -60,9 +79,11 @@ type Mutation {
   createUser(createUserData: createUserInput!): User!
   updateUser(updateUserData: updateUserInput!, UserId: String!): User!
   deleteUser(UserId: String!): String!
+  getUserByEmail(email: String!): User!
   createOrder(createOrderData: CreateOrderInput!): Order!
   DeleteOrderById(OrderId: String!): String!
   updateOrderById(OrderId: String!, updateOrderData: UpdateOrderInput!): Order!
+  login(loginInput: LoginInput!): LoginResponse!
 }
 
 input createUserInput {
@@ -122,4 +143,9 @@ input UpdateOrderInput {
   OrderId: String
   status: String
   deliveryDate: DateTime
+}
+
+input LoginInput {
+  email: String!
+  password: String!
 }

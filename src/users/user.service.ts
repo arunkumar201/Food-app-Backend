@@ -15,10 +15,6 @@ export class UserService {
     @InjectModel(USER_MODEL) private userModel: Model<UserDocument>,
   ) {}
   async createUser(createUserData: createUserInput): Promise<User> {
-    console.log(
-      '🚀 ~ file: user.service.ts:17 ~ UserService ~ userModel:',
-      this.userModel,
-    );
     const UserId = nanoid(15);
     const createdUser = new this.userModel({
       ...createUserData,
@@ -27,10 +23,6 @@ export class UserService {
     return createdUser.save();
   }
   async getUser(UserId: UserId): Promise<User> {
-    console.log(
-      '🚀 ~ file: user.service.ts:30 ~ UserService ~ getUser ~ UserId:',
-      UserId,
-    );
     return this.userModel.findOne({ UserId }).exec();
   }
   async updateUser(
@@ -56,5 +48,13 @@ export class UserService {
   }
   async getAllUsers(): Promise<any> {
     return await this.userModel.find();
+  }
+  async getUserByEmail(email: string): Promise<User> {
+    const user = await this.userModel.findOne({ email }).exec();
+
+    if (!user) {
+      throw new NotFoundException(`User with email ${email} not found`);
+    }
+    return user;
   }
 }

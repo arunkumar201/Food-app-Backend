@@ -6,8 +6,11 @@ import {
   BadRequestException,
   NotFoundException,
   ServiceUnavailableException,
+  UseGuards,
 } from '@nestjs/common';
 import { updateUserInput } from './inputs/update-user.input';
+import { GqlAuthGuard } from 'src/auth/gql-auth.guard';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 @Resolver(() => User)
 //User type defines the Returning value
 export class UserResolver {
@@ -16,12 +19,12 @@ export class UserResolver {
   async getAllUsers(): Promise<any> {
     return this.userService.getAllUsers();
   }
+  @UseGuards(JwtAuthGuard)
   @Query(() => User)
   async getUser(
     @Args('UserId', { type: () => String }) UserId: UserId,
   ): Promise<User | UserId> {
     const user = await this.userService.getUser(UserId);
-    console.log('🚀 ~ file: user.resolver.ts:24 ~ UserResolver ~ user:', user);
     if (!user) {
       throw new NotFoundException(`User with ID ${UserId} does not exist`);
     }
@@ -54,5 +57,9 @@ export class UserResolver {
       throw new Error(`Order with OrderId ${UserId} not found`);
     }
     return updatedOrder;
+  }
+  @Mutation(() => User)
+  async getUserByEmail(@Args('email') email: string): Promise<User> {
+    return this.userService.getUserByEmail(email);
   }
 }

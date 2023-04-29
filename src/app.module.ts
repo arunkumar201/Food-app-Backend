@@ -10,6 +10,9 @@ import { UserModule } from './users/user.module';
 import { MongooseConfigService } from './mongoose-config.service';
 import { MongooseModelsModule } from './schemas/mongoose-models.module';
 import { OrderModule } from './Orders/order.module';
+import { AuthModule } from './auth/auth.module';
+import { AuthService } from './auth/auth.service';
+import { JwtService, JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -22,6 +25,11 @@ import { OrderModule } from './Orders/order.module';
     }), // Import the ConfigModule and load environment variables
     UserModule,
     OrderModule,
+    AuthModule,
+    JwtModule.register({
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: process.env.JWT_EXPIRE_TIME },
+    }),
     //1st way to use mongodb to connect
     //forRoot returns the dynamic module
     MongooseModule.forRootAsync({
@@ -53,6 +61,6 @@ import { OrderModule } from './Orders/order.module';
     MongooseModelsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AuthService, AppService, JwtService],
 })
 export class AppModule {}
