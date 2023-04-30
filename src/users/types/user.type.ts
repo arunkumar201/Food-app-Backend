@@ -2,6 +2,7 @@
 import { ObjectType } from '@nestjs/graphql';
 import { Field } from '@nestjs/graphql';
 import { Prop } from '@nestjs/mongoose';
+import { IsOptional } from 'class-validator';
 
 @ObjectType()
 export class Address {
@@ -32,6 +33,7 @@ export class User {
 
   @Field()
   @Prop({ required: true })
+  @IsOptional()
   password: string;
 
   @Field(() => Address)

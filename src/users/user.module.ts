@@ -22,6 +22,7 @@ import { JwtModule } from '@nestjs/jwt';
   //then we need to exports it as MongooseModule
   exports: [UserService],
 })
+// export class UserModule {}
 export class UserModule implements NestModule {
   // The MiddlewareConsumer is a helper class. It provides several built-in methods to manage middleware
   //  The forRoutes() method can take a single string, multiple strings, a RouteInfo object,

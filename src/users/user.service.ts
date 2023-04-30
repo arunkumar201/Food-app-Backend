@@ -4,24 +4,42 @@ import { Model } from 'mongoose';
 import { USER_MODEL, User } from 'src/schemas/user.schema';
 import { createUserInput, UserId } from './inputs/create-user.input';
 import { updateUserInput } from './inputs/update-user.input';
-import { Args } from '@nestjs/graphql';
 import { nanoid } from 'nanoid';
 import { UserDocument } from '../schemas/user.schema';
-
+import * as bcrypt from 'bcrypt';
+import { Args } from '@nestjs/graphql';
 @Injectable()
 export class UserService {
   //Model<Type>  here type is the User Document type
   constructor(
     @InjectModel(USER_MODEL) private userModel: Model<UserDocument>,
   ) {}
-  async createUser(createUserData: createUserInput): Promise<User> {
-    const UserId = nanoid(15);
-    const createdUser = new this.userModel({
-      ...createUserData,
-      UserId: UserId,
+  async createUser(createUserData: createUserInput): Promise<any> {
+    const emailExists = await this.userModel.exists({
+      email: createUserData.email,
     });
+    if (emailExists) {
+      throw new Error('Email already exists');
+    }
+
+    const phoneExists = await this.userModel.exists({
+      phone: createUserData.phone,
+    });
+    if (phoneExists) {
+      throw new Error('Phone number already exists');
+    }
+    const userId = nanoid(20);
+
+    const hashedPassword = await bcrypt.hash(createUserData.password, 15);
+    const createdUser = await new this.userModel({
+      ...createUserData,
+      UserId: userId,
+      password: hashedPassword,
+    });
+
     return createdUser.save();
   }
+
   async getUser(UserId: UserId): Promise<User> {
     return this.userModel.findOne({ UserId }).exec();
   }
