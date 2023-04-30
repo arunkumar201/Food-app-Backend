@@ -67,12 +67,42 @@ type LoginResponse {
   userDetails: UserDetails!
 }
 
+type Menu {
+  id: Int!
+  name: String!
+  description: String!
+  price: Float!
+  image: String!
+}
+
+type Restaurant {
+  _id: Int!
+  name: String!
+  description: String!
+  address: String!
+  phone: String!
+  logo: String!
+  coverImage: String!
+  isVerified: Boolean!
+  rating: Float!
+  shippingFeePerKm: Float!
+  reviewCount: Int!
+  ownerName: String!
+  cityId: Float!
+  lng: String!
+  lat: String!
+  categories: [String!]!
+  menus: [Menu!]!
+}
+
 type Query {
   getHello: String!
   getAllUsers: [User!]!
   getUser(UserId: String!): User!
   getOrderById(OrderId: String!): Order!
   getAllOrder: [Order!]!
+  getAllRestaurant: [Restaurant!]!
+  getRestaurantDetails(name: String!): Restaurant!
 }
 
 type Mutation {
@@ -84,6 +114,9 @@ type Mutation {
   DeleteOrderById(OrderId: String!): String!
   updateOrderById(OrderId: String!, updateOrderData: UpdateOrderInput!): Order!
   login(loginInput: LoginInput!): LoginResponse!
+  createRestaurant(createRestaurantInput: CreateRestaurantInput!): Restaurant!
+  updateRestaurant(updateRestaurantInput: UpdateRestaurantInput!, name: String!): Restaurant!
+  DeleteRestaurantByName(name: String!): Restaurant!
 }
 
 input createUserInput {
@@ -148,4 +181,48 @@ input UpdateOrderInput {
 input LoginInput {
   email: String!
   password: String!
+}
+
+input CreateRestaurantInput {
+  ownerName: String!
+  phone: String!
+  categories: [String!]!
+  name: String!
+  description: String!
+  address: String!
+  cityId: Float
+  lat: String!
+  lng: String!
+  coverImage: String!
+  logo: String!
+  shippingFeePerKm: Float! = 0
+  menus: [MenuInput!]!
+}
+
+input MenuInput {
+  name: String!
+  description: String!
+  price: Float!
+  image: String!
+}
+
+input UpdateRestaurantInput {
+  ownerName: String
+  phone: String
+  categories: [String!]
+  description: String
+  address: String
+  lat: String
+  lng: String
+  coverImage: String
+  logo: String
+  shippingFeePerKm: Float = 0
+  menus: [MenuUpdateInput!]
+}
+
+input MenuUpdateInput {
+  name: String!
+  description: String!
+  price: Float!
+  image: String!
 }

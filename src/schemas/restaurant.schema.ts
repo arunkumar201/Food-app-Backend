@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { Document } from 'mongoose';
-import { Menu } from './menu.schema';
+import { Document } from 'mongoose';
 import { ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
@@ -15,58 +14,56 @@ export class Restaurant {
   @Prop({ type: Date, default: Date.now })
   updatedAt: Date;
 
-  @Prop({ type: String, required: true })
+  @Prop({ required: true, unique: true })
   name: string;
 
-  @Prop({ type: String, required: true })
+  @Prop({ required: true })
+  cityId: number;
+
+  @Prop({ required: true })
   description: string;
 
-  @Prop({ type: String, required: true })
+  @Prop({ required: true })
   address: string;
 
-  @Prop({ type: String, required: true })
+  @Prop({ required: true, unique: true })
   phone: string;
 
-  @Prop({ type: String })
-  image: string;
+  @Prop({ required: true })
+  logo: string;
 
-  @Prop({ type: String })
+  @Prop({ required: true })
   coverImage: string;
 
-  @Prop({ type: Boolean, default: false })
-  isFeatured: boolean;
-
-  @Prop({ type: Boolean, default: false })
+  @Prop({ default: false })
   isVerified: boolean;
 
-  @Prop({ type: Boolean, default: false })
-  isBanned: boolean;
-
-  @Prop({ type: Number })
+  @Prop({ defaultValue: 0 })
   rating: number;
 
-  @Prop({ type: Number })
+  @Prop({ defaultValue: 12, required: true })
+  shippingFeePerKm: number;
+
+  @Prop({ defaultValue: 0 })
   reviewCount: number;
 
-  @Prop({ type: String })
-  owner: string;
+  @Prop({ required: true })
+  ownerName: string;
 
-  @Prop({ type: [String] })
-  cuisines: string[];
+  @Prop({ required: true })
+  lat: string;
+
+  @Prop({ required: true })
+  lng: string;
 
   @Prop({ type: [String] })
   categories: string[];
 
-  @Prop({ type: [String] })
-  tags: string[];
-
-  @Prop({ type: [String] })
-  features: string[];
-
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Menu' }] })
-  menus: Menu[];
+  @Prop({
+    type: [{ name: String, description: String, price: Number, image: String }],
+  })
+  menus: { name: string; description: string; price: number; image: string }[];
 }
-
 export const RestaurantSchema = SchemaFactory.createForClass(Restaurant);
 export type RestaurantDocument = Restaurant & Document;
 export const RESTAURANT_MODEL = Restaurant.name;

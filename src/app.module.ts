@@ -13,6 +13,7 @@ import { OrderModule } from './Orders/order.module';
 import { AuthModule } from './auth/auth.module';
 import { AuthService } from './auth/auth.service';
 import { JwtService, JwtModule } from '@nestjs/jwt';
+import { RestaurantModule } from './restaurant/restaurant.module';
 
 @Module({
   imports: [
@@ -59,6 +60,7 @@ import { JwtService, JwtModule } from '@nestjs/jwt';
       playground: true,
     }),
     MongooseModelsModule,
+    RestaurantModule,
   ],
   controllers: [AppController],
   providers: [AuthService, AppService, JwtService],

@@ -4,14 +4,19 @@ import { OrderService } from './order.service';
 import { CreateOrderInput } from './inputs/order.input';
 import { BadRequestException } from '@nestjs/common';
 import { UpdateOrderInput } from './inputs/updateorder.input';
+import { USER_MODEL } from 'src/schemas/user.schema';
+import { InjectModel } from '@nestjs/mongoose';
+import { ORDER_MODEL, OrderDocument } from 'src/schemas/order.schema';
+import { Model } from 'mongoose';
 
 @Resolver(() => Order)
 export class OrderResolver {
   constructor(private orderService: OrderService) {}
+  @InjectModel(ORDER_MODEL) private orderModel: Model<OrderDocument>;
   @Mutation(() => Order)
   async createOrder(
     @Args('createOrderData') createOrderData: CreateOrderInput,
-  ): Promise<Order | any> {
+  ): Promise<Order> {
     if (!createOrderData.UserId) {
       throw new BadRequestException('userId is required');
     }
@@ -20,7 +25,8 @@ export class OrderResolver {
         'items is required and must contain at least one item',
       );
     }
-    return this.orderService.createOrder(createOrderData);
+    const order = await this.orderService.createOrder(createOrderData);
+    return this.orderModel.findById(order.OrderId).populate(USER_MODEL);
   }
   @Query(() => Order)
   async getOrderById(@Args('OrderId') OrderId: string): Promise<Order> {

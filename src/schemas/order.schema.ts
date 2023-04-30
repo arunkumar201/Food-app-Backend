@@ -1,25 +1,35 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
-import { User } from './user.schema';
+import { USER_MODEL, User } from './user.schema';
+import { Document, Types } from 'mongoose';
 import { Restaurant } from './restaurant.schema';
 import { Payment } from './payment.schema';
 import { ObjectType } from '@nestjs/graphql';
 import { nanoid } from 'nanoid';
-
+enum OrderStatus {
+  PENDING = 'Pending',
+  PROCESSING = 'Processing',
+  PREPARING = 'Preparing',
+  READY = 'Ready',
+  ON_THE_WAY = 'On the way',
+  DELIVERED = 'Delivered',
+  CANCELLED = 'Cancelled',
+}
 @ObjectType()
 @Schema({
   collection: 'orders',
   timestamps: true,
 })
 export class Order {
+  @Prop({ type: Types.ObjectId, ref: USER_MODEL, required: true })
+  user: User;
   @Prop({ type: Date, default: Date.now })
   createdAt: Date;
 
   @Prop({ type: Date, default: Date.now })
   updatedAt: Date;
 
-  @Prop({ type: String, required: true })
-  status: string;
+  @Prop({ type: String, enum: OrderStatus, default: OrderStatus.PENDING })
+  status: OrderStatus;
 
   @Prop({ type: Number, required: true })
   total: number;
@@ -73,9 +83,6 @@ export class Order {
 
   @Prop({ type: String })
   cancellationReason: string;
-
-  @Prop({ type: Object })
-  user: User;
 
   @Prop({ type: Object })
   restaurant: Restaurant;
