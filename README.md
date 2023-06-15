@@ -51,7 +51,7 @@ npm install
 Create a .env file in the project root directory and set the following environment variables:
 
 PORT=3000
-DATABASE_URL=<your [MongoDB](poe://www.poe.com/_api/key_phrase?phrase=MongoDB&prompt=Tell%20me%20more%20about%20MongoDB.) database URL>
+DATABASE_URL=<your [MongoDB] database URL>
 Start the development server:
 
 npm run start:dev
@@ -98,7 +98,7 @@ $ yarn run test:cov
 
 ## Support
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Nest is an MIT-licensed open-source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
 ## Stay in touch
 
